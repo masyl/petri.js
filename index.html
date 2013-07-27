@@ -2,6 +2,7 @@
 <html style="padding:0; margin: 0; width: 100%; height: 100%">
 	<head>
 		<!-- Load the Paper.js library -->
+		<script type="text/javascript" src="components/gsap/src/uncompressed/TweenMax.js"></script>
 		<script type="text/javascript" src="components/paper/dist/paper-full.js"></script>
 		<!-- Define inlined PaperScript associate it with myCanvas -->
 		<script src="petri.js"></script>
@@ -17,7 +18,6 @@ console.log(project.activeLayer.matrix.translation)
 console.log(view.center)
 
 			function onResize(event) {
-				resizeLayer(1);
 			}
 
 			function resizeLayer(factor) {
@@ -25,12 +25,21 @@ console.log(view.center)
 				// var layer =  project.activeLayer;
 				zoom = zoom * factor;
 				var layer = project.activeLayer;
-				console.log(zoom);
-				layer.matrix.reset();
-				layer.matrix.scale(zoom, view.center);
-				layer.matrix.translate(view.center);//new Point(-100, -100);
-				
+				console.log("Zoom factor:", zoom);
+
+				// layer.matrix.reset();
+				TweenMax.to(layer.matrix, 0.3, {
+					scaleX: zoom,
+					scaleY: zoom,
+					translateX: view.center.x,
+					translateY: view.center.y
+				});
 			}
+
+			function onFrame(event) {
+				view.draw();
+			};
+
 
 			function onKeyUp(event) {
 				if (event.key === "=" || event.key === "+" ) {
