@@ -10,16 +10,38 @@
 		<script type="text/paperscript" canvas="myCanvas">
 			var undef = void 0;
 			var zoom = 2;
+
+
+			var backgroundLayer = new Layer();
+			var background = new Raster('background');
+			background.position = view.center;
+			// background.scale(1.5);
+
+
+			var dishLayer = new Layer();
+
 			var dishShape = new Path.Circle(new Point(0, 0), 30);
-			dishShape.fillColor = '#CC4444';
+			dishShape.fillColor = '#600';
 
-				project.activeLayer.matrix.translate(view.center);//new Point(-100, -100);
+			project.activeLayer.matrix.translate(view.center);//new Point(-100, -100);
 
-console.log(project.activeLayer.matrix.translation)
-console.log(view.center)
 
-			function onResize(event) {
-			}
+
+
+var loaded = false;
+background.on('load', function() {
+	loaded = true;
+	onBackgroundLoad();
+});
+function onBackgroundLoad(event) {
+	if (!loaded) return;
+
+	// Transform the raster so that it fills the bounding rectangle
+	// of the view:
+	background.fitBounds(view.bounds, true);
+
+}
+
 
 			function resizeLayer(factor, baseValue) {
 				// Whenever the window is resized, recenter the path:
@@ -62,7 +84,11 @@ console.log(view.center)
 
 		</script>
 	</head>
-<body style="padding:0; margin: 0; width: 100%; height: 100%">
-	<canvas id="myCanvas" resize="true" keepalive="true"></canvas>
-</body>
+	<body style="padding:0; margin: 0; width: 100%; height: 100%">
+		<canvas id="myCanvas" resize="true" keepalive="true" style="position: absolute; top: 0; left: 0;/>
+			
+		</canvas><div style="position: absolute; top: -1000em; left: -1000em; overflow: hidden; height: 1px; width: 1px;">
+			<img src="./images/bg.jpg" id="background" />
+		</div>
+	</body>
 </html>
