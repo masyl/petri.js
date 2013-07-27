@@ -7,23 +7,43 @@
 		<script src="petri.js"></script>
 		<script src="demo.js"></script>
 		<script type="text/paperscript" canvas="myCanvas">
+			var zoom = 2;
+			var dishShape = new Path.Circle(new Point(0, 0), 30);
+			dishShape.fillColor = '#CC4444';
 
-			// Create a Paper.js Path to draw a line into it:
-			var path = new Path();
-			// Give the stroke a color
-			path.strokeColor = 'black';
-			var start = new Point(100, 100);
-			// Move to start and draw a line from there
-			path.moveTo(start);
+				project.activeLayer.matrix.translate(view.center);//new Point(-100, -100);
 
-			var dishPosition = new Point(0, 0);
-			var dish = new Path.Circle(dishPosition + view.center, 30);
-			dish.fillColor = 'red';
+console.log(project.activeLayer.matrix.translation)
+console.log(view.center)
+
 			function onResize(event) {
-				// Whenever the window is resized, recenter the path:
-				dish.position = dishPosition + view.center;
-				dish.size = 150;
+				resizeLayer(1);
 			}
+
+			function resizeLayer(factor) {
+				// Whenever the window is resized, recenter the path:
+				// var layer =  project.activeLayer;
+				zoom = zoom * factor;
+				var layer = project.activeLayer;
+				console.log(zoom);
+				layer.matrix.reset();
+				layer.matrix.scale(zoom, view.center);
+				layer.matrix.translate(view.center);//new Point(-100, -100);
+				
+			}
+
+			function onKeyUp(event) {
+				if (event.key === "=" || event.key === "+" ) {
+					resizeLayer(1.5);
+				}
+				if (event.key === "-" || event.key === "_" ) {
+					resizeLayer(0.66);
+				}
+
+				if (event.key === "space" || event.key === "_" ) {
+				}
+			}
+
 		</script>
 	</head>
 <body style="padding:0; margin: 0; width: 100%; height: 100%">
