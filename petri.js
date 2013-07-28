@@ -3,6 +3,8 @@
 
 // use or create the namespace
 global.petri = {
+	zoom: 1,
+	speed: 10,
 	version: "0.0.1"
 };
 
@@ -51,7 +53,7 @@ petri.dish = function dish(size) {
 
 
 /**
- *
+ * 
  */
 petri.sprinkle = function fill(medium, dish, qty) {
 

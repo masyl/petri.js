@@ -5,7 +5,7 @@
  */
 
 var undef = void 0;
-var zoom = 1;
+petri.zoom = 1;
 
 
 var backgroundLayer = new Layer();
@@ -39,18 +39,31 @@ function onBackgroundLoad(event) {
 
 }
 
+petri.updateView = function () {
+	updateZoom();
+}
+
 
 function resizeLayer(factor, baseValue) {
 	// Whenever the window is resized, recenter the path:
 	// var layer =  project.activeLayer;
+	if (baseValue !== undef) petri.zoom = baseValue;
+	petri.zoom = petri.zoom * factor;
+	updateZoom();
+}
 
-	if (baseValue !== undef) zoom = baseValue;
+function updateZoom() {
 
-	zoom = zoom * factor;
+	console.log("Zoom factor:", petri.zoom);
+
 	var layer = project.activeLayer;
-	console.log("Zoom factor:", zoom);
+	var zoom = petri.zoom;
+	if (zoom <= 1 && zoom >= -1) {
+		zoom = 1;
+	} else if (zoom < -1) {
+		zoom = -(1/zoom);
+	};
 
-	// layer.matrix.reset();
 	TweenMax.to(layer.matrix, 0.3, {
 		scaleX: zoom,
 		scaleY: zoom,
@@ -78,3 +91,5 @@ function onKeyUp(event) {
 	if (event.key === "space" || event.key === "_" ) {
 	}
 }
+
+

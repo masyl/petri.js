@@ -1,13 +1,23 @@
 (function () {
 "use strict";
 
-console.log("Starting petri tests!");
 
-var testGenome = "a7j3hndJUT9487JYGNKjdywnf8264hdomay283HTDus783";
+window.onload = function () {
 
-// Create an empty 50 x 50 petri dish
-var dish = petri.dish(200);
-window.dish1 = dish;
+	console.log("Starting petri tests!");
+
+	var testGenome = "a7j3hndJUT9487JYGNKjdywnf8264hdomay283HTDus783";
+
+	petri.init_controls();
+
+	var dish = petri.dish(200);
+	window.dish1 = dish;
+
+	//petri.play(dish)
+
+
+
+};
 
 // var medium = petri.medium("neutral", {});
 

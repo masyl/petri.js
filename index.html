@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html style="padding:0; margin: 0; width: 100%; height: 100%">
 	<head>
-		<!-- Load the Paper.js library -->
-		<script type="text/javascript" src="components/gsap/src/uncompressed/TweenMax.js"></script>
-		<script type="text/javascript" src="components/paper/dist/paper-full.js"></script>
-		<!-- Define inlined PaperScript associate it with myCanvas -->
+
+		<script src="components/gsap/src/uncompressed/TweenMax.js"></script>
+		<script src="components/paper/dist/paper-full.js"></script>
+
+		<script src="components/datgui/dat.gui.min.js"></script>
+
 		<script src="petri.js"></script>
+		<script src="petri-2d.js"></script>
 		<script src="demo.js"></script>
+
 		<script type="text/paperscript" src="gui.js" canvas="myCanvas"></script>
+		<script src="gui-controls.js"></script>
 	</head>
 	<body style="padding:0; margin: 0; width: 100%; height: 100%">
 		<canvas id="myCanvas" resize="true" keepalive="true" style="position: absolute; top: 0; left: 0;"></canvas>
