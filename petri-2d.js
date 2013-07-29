@@ -14,7 +14,7 @@ function angle(point1, point2) {
 };
 
 
-petri.twoD = {
+petri.measure = {
 	distance: distance,
 	angle: angle
 }

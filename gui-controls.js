@@ -16,12 +16,19 @@ petri.init_controls = function () {
 
 	var controls = {};
 
-	controls.zoom = gui.add(petri, 'zoom', -5, 5).step(0.25);
-	controls.speed = gui.add(petri, 'speed', 0, 100);
+	var viewFolder = gui.addFolder("View");
+	controls.zoom = viewFolder.add(petri, 'zoom', -5, 5).step(0.25);
+	controls.speed = viewFolder.add(petri, 'speed', 0, 100);
+
+	var playbackFolder = gui.addFolder("Playback");
+	controls.play = playbackFolder.add(petri, 'play');
 
 	controls.zoom.onChange(function(value) {
 		petri.updateView();
 	});
+
+	viewFolder.open();
+	playbackFolder.open()
 
 	gui.remember(petri);
 

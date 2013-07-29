@@ -2,14 +2,28 @@
 "use strict";
 
 // use or create the namespace
-global.petri = {
+var petri = {
 	zoom: 1,
 	speed: 10,
 	version: "0.0.1"
 };
 
+global.petri = petri;
+
+
+petri.play = function () {
+	console.log("play!");
+}
+
+
 console.log("Starting petri.js v" + petri.version);
 
+petri.guid = function () {
+	function s4() {
+		return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+	};
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+};
 
 /**
  * Spawn a new un-developped speciment at a given location
@@ -30,9 +44,11 @@ petri.spawn = function spawn(x, y, genome) {
 /**
  * Return a new medium element to put in a dish
  */
-petri.medium = function medium(type, options) {
+petri.medium = function medium(options) {
 	var medium = {
-		type: type,
+		x: null,
+		y: null,
+		guid: petri.guid(),
 		charge: options.charge || 16
 	}
 	return medium;
@@ -55,8 +71,23 @@ petri.dish = function dish(size) {
 /**
  * 
  */
-petri.sprinkle = function fill(medium, dish, qty) {
+petri.feed = function fill(dish, qty) {
+	var newMedium;
+	var size = dish.size;
 
+	for (var i = 0; i < qty; i++) {
+		// create a new unique medium entity
+		newMedium = petri.medium({});
+
+		// position the medium at a random location
+		newMedium.x = Math.random() * (size * 2) - size;
+		newMedium.y = Math.random() * (size * 2) - size;
+
+		// todo: restrict the possible position of medium to the circumference of the dish
+
+		// add the new medium entity to the dish
+		dish.medium[newMedium.guid] = newMedium;
+	}
 }
 
 petri.develop = function develop(specimen) {

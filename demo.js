@@ -6,16 +6,28 @@ window.onload = function () {
 
 	console.log("Starting petri tests!");
 
-	var testGenome = "a7j3hndJUT9487JYGNKjdywnf8264hdomay283HTDus783";
-
 	petri.init_controls();
 
 	var dish = petri.dish(200);
+
 	window.dish1 = dish;
 
-	//petri.play(dish)
+	var sampleDish = {
+		dish: dish,
+		testGenome: "a7j3hndJUT9487JYGNKjdywnf8264hdomay283HTDus783",
+		feed: function () {
+			console.info("Feeding the dish with 30 medium elements");
+			petri.feed(this.dish, 30);
+		}
+	}
 
+	var gui = new dat.GUI();
 
+	var controls = {};
+
+	var dishFolder = gui.addFolder("Dish");
+	controls.speed = dishFolder.add(sampleDish, 'feed');
+	dishFolder.open();
 
 };
 

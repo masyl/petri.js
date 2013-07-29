@@ -16,11 +16,29 @@ background.position = view.center;
 var dish = dish1;
 
 var dishLayer = new Layer();
+// dishLayer.matrix.translateX = view.center.x;
+// dishLayer.matrix.translateY = view.center.y;
 
+
+var fakeLayer = new Layer();
+// project.activeLayer = dishLayer;
+// console.log("dishLayer", dishLayer);
+
+var mediumGroup = new Group();
+var dishGroup = new Group();
+
+
+dishLayer.insertChild(0, mediumGroup);
+dishLayer.insertChild(0, dishGroup);
+
+// Create the cirular shape of the dish
 var dishShape = new Path.Circle(new Point(0, 0), dish.size);
 dishShape.fillColor = '#600';
+dishGroup.insertChild(0, dishShape);
 
-project.activeLayer.matrix.translate(view.center);//new Point(-100, -100);
+
+dishLayer.matrix.translate(view.center);
+
 
 
 
@@ -41,6 +59,34 @@ function onBackgroundLoad(event) {
 
 petri.updateView = function () {
 	updateZoom();
+	drawMediumEntities();
+}
+
+
+var mediumShapes = {};
+
+/**
+ * Draw the list of medium entities on a dish
+ */
+function drawMediumEntities() {
+	var medium;
+	var shape;
+	var mediumSize;
+	for (var m in dish.medium) {
+		if (dish.medium.hasOwnProperty(m)) {
+			medium = dish.medium[m];
+			shape = mediumShapes[medium.guid];
+			if (shape) {
+				// todo: only update the shape
+			} else {
+				mediumSize = Math.floor(medium.charge / 4);
+				shape = new Path.Circle(new Point(Math.floor(medium.x), Math.floor(medium.y)), mediumSize);
+				shape.fillColor = '#fff';
+				mediumGroup.insertChild(0, shape);
+				mediumShapes[medium.guid] = shape
+			}
+		}
+	}
 }
 
 
@@ -53,11 +99,11 @@ function resizeLayer(factor, baseValue) {
 }
 
 function updateZoom() {
-
 	console.log("Zoom factor:", petri.zoom);
 
-	var layer = project.activeLayer;
+	var layer = dishLayer;
 	var zoom = petri.zoom;
+
 	if (zoom <= 1 && zoom >= -1) {
 		zoom = 1;
 	} else if (zoom < -1) {
