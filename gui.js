@@ -73,11 +73,14 @@ function drawMediumEntities() {
 	var shape;
 	var mediumSize;
 	for (var m in dish.medium) {
+		//todo: put the iterator in a separate function
 		if (dish.medium.hasOwnProperty(m)) {
 			medium = dish.medium[m];
 			shape = mediumShapes[medium.guid];
 			if (shape) {
 				// todo: only update the shape
+				shape.translateX = medium.x;
+				shape.translateY = medium.y;
 			} else {
 				mediumSize = Math.floor(medium.charge / 4);
 				shape = new Path.Circle(new Point(Math.floor(medium.x), Math.floor(medium.y)), mediumSize);
@@ -89,7 +92,8 @@ function drawMediumEntities() {
 	}
 }
 
-petri.on(function() {
+// Listen for new medium entities
+petri.on("newMedium", function() {
 	drawMediumEntities();
 });
 
