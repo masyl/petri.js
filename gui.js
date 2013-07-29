@@ -89,6 +89,9 @@ function drawMediumEntities() {
 	}
 }
 
+petri.on(function() {
+	drawMediumEntities();
+});
 
 function resizeLayer(factor, baseValue) {
 	// Whenever the window is resized, recenter the path:

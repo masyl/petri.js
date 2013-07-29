@@ -1,4 +1,4 @@
-(function (petri) {
+(function (petrijs) {
 "use strict";
 
 
@@ -14,10 +14,10 @@ function angle(point1, point2) {
 };
 
 
-petri.measure = {
+petrijs.measure = {
 	distance: distance,
 	angle: angle
 }
 
 
-})(petri);
+})(petrijs);

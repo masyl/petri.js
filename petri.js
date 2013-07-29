@@ -1,24 +1,29 @@
 (function (global) {
 "use strict";
 
+
 // use or create the namespace
-var petri = {
-	zoom: 1,
-	speed: 10,
-	version: "0.0.1"
-};
+function Petri() {
+	this.zoom = 1;
+	this.speed = 10;
+	this.version = "0.0.2";
+}
 
-global.petri = petri;
+Petri.prototype = new EventEmitter2({
+	wildcard: true, // should the event emitter use wildcards.
+	delimiter: '::', // the delimiter used to segment namespaces, defaults to `.`.
+	newListener: false, // if you want to emit the newListener event set to true.
+	maxListeners: 20, // the max number of listeners that can be assigned to an event, defaults to 10.
+});
 
 
-petri.play = function () {
+Petri.prototype.play = function () {
 	console.log("play!");
 }
 
 
-console.log("Starting petri.js v" + petri.version);
-
-petri.guid = function () {
+//todo: externalise in a different file
+Petri.prototype.guid = function () {
 	function s4() {
 		return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 	};
@@ -28,7 +33,7 @@ petri.guid = function () {
 /**
  * Spawn a new un-developped speciment at a given location
  */
-petri.spawn = function spawn(x, y, genome) {
+Petri.prototype.spawn = function spawn(x, y, genome) {
 	// todo: add mutation according to rate
 	return {
 		genome: genome,
@@ -44,7 +49,8 @@ petri.spawn = function spawn(x, y, genome) {
 /**
  * Return a new medium element to put in a dish
  */
-petri.medium = function medium(options) {
+Petri.prototype.medium = function medium(options) {
+	var petri = this;
 	var medium = {
 		x: null,
 		y: null,
@@ -57,7 +63,7 @@ petri.medium = function medium(options) {
 /**
  * Return a new petri dish on which to place specimens
  */
-petri.dish = function dish(size) {
+Petri.prototype.dish = function dish(size) {
 	var dish = {
 		size: size,
 		cycle: 0,
@@ -71,7 +77,8 @@ petri.dish = function dish(size) {
 /**
  * 
  */
-petri.feed = function fill(dish, qty) {
+Petri.prototype.feed = function fill(dish, qty) {
+	var petri = this;
 	var newMedium;
 	var size = dish.size;
 
@@ -87,10 +94,12 @@ petri.feed = function fill(dish, qty) {
 
 		// add the new medium entity to the dish
 		dish.medium[newMedium.guid] = newMedium;
+
+		this.emit("newMedium", newMedium);
 	}
 }
 
-petri.develop = function develop(specimen) {
+Petri.prototype.develop = function develop(specimen) {
 		var state = {
 			pointer: 0,
 			genome: genome
@@ -105,6 +114,12 @@ petri.develop = function develop(specimen) {
 			state.pointer++;
 		}
 };
+
+
+var petrijs = {
+	Petri: Petri
+};
+global.petrijs = petrijs;
 
 
 })(this);

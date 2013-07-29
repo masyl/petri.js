@@ -1,5 +1,5 @@
 
-petri.init_controls = function () {
+petrijs.Petri.prototype.init_controls = function () {
 
 
 	defaults = {

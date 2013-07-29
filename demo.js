@@ -1,10 +1,14 @@
-(function () {
+(function (global) {
 "use strict";
 
 
 window.onload = function () {
 
-	console.log("Starting petri tests!");
+	var petri = new petrijs.Petri();
+	global.petri = petri;
+
+	console.log("Starting petri tests!", petri);
+	console.log("petri.js version", petri.version);
 
 	petri.init_controls();
 
@@ -52,7 +56,7 @@ window.onload = function () {
 
 // console.log("specimen", specimen);
 
-})();
+})(this);
 
 
 
