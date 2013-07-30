@@ -83,20 +83,25 @@ Petri.prototype.feed = function fill(dish, qty) {
 	var size = dish.size;
 	var coord;
 
+	var delay = 0;
 	for (var i = 0; i < qty; i++) {
-		// create a new unique medium entity
-		newMedium = petri.medium({});
-		coord = petrijs.measure.randomPolarCoord(size);
+		delay = delay + 30;
+		setTimeout(function () {
+			// create a new unique medium entity
+			newMedium = petri.medium({});
+			coord = petrijs.measure.randomPolarCoord(size);
 
-		newMedium.x = coord.x;
-		newMedium.y = coord.y;
+			newMedium.x = coord.x;
+			newMedium.y = coord.y;
 
-		// todo: restrict the possible position of medium to the circumference of the dish
+			// todo: restrict the possible position of medium to the circumference of the dish
 
-		// add the new medium entity to the dish
-		dish.medium[newMedium.guid] = newMedium;
+			// add the new medium entity to the dish
+			dish.medium[newMedium.guid] = newMedium;
 
-		this.emit("newMedium", newMedium);
+			petri.emit("newMedium", newMedium);
+
+		}, delay);
 	}
 }
 
