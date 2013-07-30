@@ -81,14 +81,15 @@ Petri.prototype.feed = function fill(dish, qty) {
 	var petri = this;
 	var newMedium;
 	var size = dish.size;
+	var coord;
 
 	for (var i = 0; i < qty; i++) {
 		// create a new unique medium entity
 		newMedium = petri.medium({});
+		coord = petrijs.measure.randomPolarCoord(size);
 
-		// position the medium at a random location
-		newMedium.x = Math.random() * (size * 2) - size;
-		newMedium.y = Math.random() * (size * 2) - size;
+		newMedium.x = coord.x;
+		newMedium.y = coord.y;
 
 		// todo: restrict the possible position of medium to the circumference of the dish
 
